@@ -7,15 +7,17 @@ import '../../../util/theme_helper.dart';
 class HomeController extends GetxController
 {
   GeminiModel? model;
-  RxBool theme=false.obs;
+  RxBool theme = false.obs;
+  RxList<String> geminiList =<String>[].obs;
+
   Future<void> getGeminiAPI(String search)
   async {
    model = await APIHelper.helper.geminiAPI(search);
+   geminiList.add("${model!.candidates![0].content!.parts![0].text}");
   }
-  Future<void> getTheme() async {
-
-    bool? themeName=await Helper.helper.getTheme();
-    theme.value=themeName??false;
+  void getThemeData() async {
+    bool? themeName = await Helper.helper.getTheme();
+    theme.value = themeName ?? false;
 
   }
 }

@@ -1,3 +1,9 @@
+
+import 'dart:convert';
+
+GeminiModel geminiModelFromJson(String str) => GeminiModel.fromJson(json.decode(str));
+
+String geminiModelToJson(GeminiModel data) => json.encode(data.toJson());
 class GeminiModel {
   List<Candidates>? candidates;
   UsageMetadata? usageMetadata;
