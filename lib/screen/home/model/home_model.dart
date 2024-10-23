@@ -1,30 +1,19 @@
-
-import 'dart:convert';
-
-GeminiModel geminiModelFromJson(String str) => GeminiModel.fromJson(json.decode(str));
-
-String geminiModelToJson(GeminiModel data) => json.encode(data.toJson());
 class GeminiModel {
   List<Candidates>? candidates;
   UsageMetadata? usageMetadata;
 
-  GeminiModel({required this.candidates,required this.usageMetadata});
+  GeminiModel({required this.candidates, required this.usageMetadata});
 
-  factory GeminiModel.fromJson(Map<String, dynamic> json) => GeminiModel(
-    candidates: List<Candidates>.from(json["candidates"].map((x) => Candidates.fromJson(x))),
-    usageMetadata: UsageMetadata.fromJson(json["usageMetadata"]),
-  );
+  factory GeminiModel.fromJson(Map<String, dynamic> m1) => GeminiModel(
+        candidates: List<Candidates>.from(
+            m1["candidates"].map((x) => Candidates.fromJson(x))),
+        usageMetadata: UsageMetadata.fromJson(m1["usageMetadata"]),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.candidates != null) {
-      data['candidates'] = this.candidates!.map((v) => v.toJson()).toList();
-    }
-    if (this.usageMetadata != null) {
-      data['usageMetadata'] = this.usageMetadata!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "candidates": List<dynamic>.from(candidates!.map((x) => x.toJson())),
+        "usageMetadata": usageMetadata!.toJson(),
+      };
 }
 
 class Candidates {
@@ -33,49 +22,47 @@ class Candidates {
   int? index;
   List<SafetyRatings>? safetyRatings;
 
-  Candidates({ required this.content,required this.finishReason,required this.index,required this.safetyRatings});
+  Candidates(
+      {required this.content,
+      required this.finishReason,
+      required this.index,
+      required this.safetyRatings});
 
   factory Candidates.fromJson(Map<String, dynamic> m1) => Candidates(
-    content: Content.fromJson(m1["content"]),
-    finishReason: m1["finishReason"],
-    index: m1["index"],
-    safetyRatings: List<SafetyRatings>.from(m1["safetyRatings"].map((x) => SafetyRatings.fromJson(x))),
-  );
+        content: Content.fromJson(m1["content"]),
+        finishReason: m1["finishReason"],
+        index: m1["index"],
+        safetyRatings: List<SafetyRatings>.from(
+          m1["safetyRatings"].map(
+            (x) => SafetyRatings.fromJson(x),
+          ),
+        ),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
-    }
-    data['finishReason'] = this.finishReason;
-    data['index'] = this.index;
-    if (this.safetyRatings != null) {
-      data['safetyRatings'] =
-          this.safetyRatings!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "content": content!.toJson(),
+        "finishReason": finishReason,
+        "index": index,
+        "safetyRatings":
+            List<dynamic>.from(safetyRatings!.map((x) => x.toJson())),
+      };
 }
 
 class Content {
   List<Parts>? parts;
   String? role;
 
-  Content({required this.parts,required this.role});
+  Content({required this.parts, required this.role});
 
   factory Content.fromJson(Map<String, dynamic> m1) => Content(
-    parts: List<Parts>.from(m1["parts"].map((x) => Parts.fromJson(x))),
-    role: m1["role"],
-  );
+        parts: List<Parts>.from(m1["parts"].map((x) => Parts.fromJson(x))),
+        role: m1["role"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.parts != null) {
-      data['parts'] = this.parts!.map((v) => v.toJson()).toList();
-    }
-    data['role'] = this.role;
-    return data;
-  }
+  Map<String, dynamic> toJson() =>{
+    "parts": List<dynamic>.from(parts!.map((x) => x.toJson())),
+    "role": role,
+  };
 }
 
 class Parts {
@@ -83,13 +70,12 @@ class Parts {
 
   Parts({required this.text});
 
- factory Parts.fromJson(Map<String, dynamic> m1) =>Parts(text: m1["text"]);
+  factory Parts.fromJson(Map<String, dynamic> m1) => Parts(text: m1["text"]);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['text'] = this.text;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "text": text,
+
+  };
 }
 
 class SafetyRatings {
@@ -98,14 +84,14 @@ class SafetyRatings {
 
   SafetyRatings({required this.category, required this.probability});
 
- factory SafetyRatings.fromJson(Map<String, dynamic> m1) =>SafetyRatings(category:m1["category"] ,probability:m1["probability"] );
+  factory SafetyRatings.fromJson(Map<String, dynamic> m1) =>
+      SafetyRatings(category: m1["category"], probability: m1["probability"]);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category'] = this.category;
-    data['probability'] = this.probability;
-    return data;
-  }
+  Map<String, dynamic> toJson()=> {
+    "category": category,
+    "probability": probability,
+
+  };
 }
 
 class UsageMetadata {
@@ -123,11 +109,10 @@ class UsageMetadata {
       candidatesTokenCount: m1["candidatesTokenCount"],
       totalTokenCount: m1["totalTokenCount"]);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['promptTokenCount'] = this.promptTokenCount;
-    data['candidatesTokenCount'] = this.candidatesTokenCount;
-    data['totalTokenCount'] = this.totalTokenCount;
-    return data;
-  }
+  Map<String, dynamic> toJson() =>{
+    "promptTokenCount": promptTokenCount,
+    "candidatesTokenCount": candidatesTokenCount,
+    "totalTokenCount": totalTokenCount,
+
+  };
 }

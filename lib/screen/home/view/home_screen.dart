@@ -16,8 +16,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeController controller = Get.put(HomeController());
   TextEditingController txtSearch = TextEditingController();
-
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  @override
 
   @override
   Widget build(BuildContext context) {
@@ -62,46 +62,61 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                // reverse: true,
-                child: ListView.builder(
-                  itemCount: controller.geminiList.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return index % 2 == 0
-                        ? Container(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  reverse: true,
+                  child: ListView.builder(
+                    itemCount: controller.geminiList.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return index % 2 == 0
+                          ? Container(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                child: Obx(
+                                  () => Text(
+                                    controller.geminiList[index],
+                                    style: const TextStyle(fontSize: 15),
+                                  ),
                                 ),
                               ),
-                              child: Obx(
-                                () => Text(
-                                  controller.geminiList[index],
-                                  style: const TextStyle(fontSize: 15),
+                            )
+                          : Container(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                child: Obx(
+                                  () => AnimatedTextKit(
+                                    isRepeatingAnimation: false,
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        controller.geminiList[index],
+                                        speed: const Duration(milliseconds: 12),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        : Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                            child: Obx(
-                              () => AnimatedTextKit(
-                                animatedTexts: [
-                                  TyperAnimatedText(controller.geminiList[index],  speed: const Duration(milliseconds: 12),),
-                                ],
-                              ),
-                            ),
-                          );
-                  },
+                            );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -125,10 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         validator: (value) {
-                          if(value!.isEmpty)
-                            {
-                              return "Enter message";
-                            }
+                          if (value!.isEmpty) {
+                            return "Enter message";
+                          }
                           return null;
                         },
                       ),
@@ -146,13 +160,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: IconButton(
                         onPressed: () {
-                         if(formKey.currentState!.validate())
-                           {
-                             controller.geminiList.add(txtSearch.text);
-                             controller.getGeminiAPI(txtSearch.text);
-                             print(txtSearch.text);
-                             txtSearch.clear();
-                           }
+                          if (formKey.currentState!.validate()) {
+                            controller.geminiList.add(txtSearch.text);
+                            controller.getGeminiAPI(txtSearch.text);
+                            print(txtSearch.text);
+                            txtSearch.clear();
+                          }
                         },
                         icon: const Icon(Icons.send),
                       ),

@@ -18,7 +18,7 @@ class APIHelper {
             "contents": [
               {
                 "parts": [
-                  {"text": "Explain how AI works"}
+                  {"text": search}
                 ]
               }
             ]
