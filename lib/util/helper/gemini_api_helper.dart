@@ -12,7 +12,7 @@ class APIHelper {
     String link =
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAyDEu1oBviYD30jV0WV7xctMbJtA_ra9Q";
 
-    var response =await http.post(Uri.parse(link),
+    var response = await http.post(Uri.parse(link),
         body: jsonEncode(
           {
             "contents": [

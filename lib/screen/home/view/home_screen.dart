@@ -1,6 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:gemini/util/theme_helper.dart';
+import 'package:gemini/util/helper/theme_helper.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -17,8 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeController controller = Get.put(HomeController());
   TextEditingController txtSearch = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  @override
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           onChanged: (value) {
                             controller.theme.value = value;
                             Helper.helper.setTheme(controller.theme.value);
-                            print(controller.theme.value);
                           },
                         ),
                       ),
@@ -53,7 +52,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(
+              height: 80,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      const Text("History"),
+                      const Spacer(),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed("/history");
+                        },
+                        child: const Icon(Icons.history),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -84,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 child: Obx(
-                                  () => Text(
+                                  () =>  Text(
                                     controller.geminiList[index],
                                     style: const TextStyle(fontSize: 15),
                                   ),
@@ -108,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     animatedTexts: [
                                       TyperAnimatedText(
                                         controller.geminiList[index],
-                                        speed: const Duration(milliseconds: 12),
+                                        speed: const Duration(milliseconds: 15),
                                       ),
                                     ],
                                   ),
@@ -132,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: TextFormField(
                         controller: txtSearch,
                         decoration: const InputDecoration(
-                          hintText: "enter meg",
+                          hintText: "enter message",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
@@ -153,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Container(
                       height: 45,
-                      width: 45,
+                      width: MediaQuery.sizeOf(context).width * 0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey.withOpacity(0.2),
@@ -163,7 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (formKey.currentState!.validate()) {
                             controller.geminiList.add(txtSearch.text);
                             controller.getGeminiAPI(txtSearch.text);
-                            print(txtSearch.text);
                             txtSearch.clear();
                           }
                         },
